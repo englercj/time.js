@@ -98,4 +98,4 @@
     //exports, for node/browser
     if(module) module.exports = Time;
     else window.Time = Time;
-}
+}(window);

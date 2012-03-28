@@ -32,7 +32,7 @@
 	this._days = 0;
 	
 	if(ms) {
-	    var x = ms / 100;
+	    var x = ms / 1000;
 	    
 	    this._secs = x % 60;
 	    x /= 60;

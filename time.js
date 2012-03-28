@@ -1,5 +1,6 @@
 //Format Strings:
 ////////////////////
+//%M - miliseconds
 //%s - seconds
 //%m - minutes
 //%h - hours
@@ -22,31 +23,35 @@
     
 !function(window, undefined) {
     //private vars
-    var get_formatters = /%[smhd](\{[\d]+(,[ ]*[\d]+)?\})?/g;
+    var get_formatters = /%[smhd](\{[\d]+(,[ ]*[\d]+)?\})?/g,
+	formatters = {
+	    ms: '%M',
+	    secs: '%s',
+	    mins: '%m',
+	    hrs: '%h',
+	    days: '%d'
+	}
 
     //ctor
     function Time(ms) {
+	this._total_ms = 0;
+	this._ms = 0;
 	this._secs = 0;
 	this._mins = 0;
 	this._hrs = 0;
 	this._days = 0;
 	
-	if(ms) {
-	    var x = ms / 1000;
-	    
-	    this._secs = x % 60;
-	    x /= 60;
-	    this._mins = x % 60;
-	    x /= 60;
-	    this._hrs = x % 24;
-	    x /= 24;
-	    this._days = x;
-	}
+	if(ms) this._total_ms = ms;
+	
+	//parseMs(this);
     }
     
     //public instance methods
     Time.prototype.toString = function(fmat) {
-	var formats = fmat.match(get_formatters);
+	var formats = fmat.match(get_formatters),
+	    largest = getLargestFormatter(fmat);
+	    
+	parseMs(this, largest);
 	
 	for(var i in formats) {
 	    var f = formats[i],
@@ -60,16 +65,19 @@
 	    }
 	    
 	    switch(f.substring(0,2)) {
-		case '%s':
+		case formatters.ms:
+		    value = this._ms;
+		    break;
+		case formatters.secs:
 		    value = this._secs;
 		    break;
-		case '%m':
+		case formatters.mins:
 		    value = this._mins;
 		    break;
-		case '%h':
+		case formatters.hrs:
 		    value = this._hrs;
 		    break;
-		case '%d':
+		case formatters.days:
 		    value = this._days;
 		    break;
 	    }
@@ -93,6 +101,43 @@
 	}
 	
 	return str;
+    }
+    
+    function getLargestFormatter(fmat) {
+	if(fmat.indexOf(formatters.days) > -1)
+	    return formatters.days;
+	if(fmat.indexOf(formatters.hrs) > -1)
+	    return formatters.hrs;
+	if(fmat.indexOf(formatters.mins) > -1)
+	    return formatters.mins;
+	if(fmat.indexOf(formatters.secs) > -1)
+	    return formatters.secs;
+	if(fmat.indexOf(formatters.ms) > -1)
+	    return formatters.ms;
+    }
+    
+    function parseMs(t, upTo) {
+	var ms = t._total_ms;
+	
+	if(ms) {
+	    //ms in ms, ms in sec, sec in min, min in hrs, hrs in days
+	    var woopDivisor = [1, 1000, 60, 60, 24],
+		woopFormat = [formatters.ms, formatters.secs, formatters.mins, formatters.hrs, formatters.days],
+		woopUnits = ['_ms', '_secs', '_mins', '_hrs', '_days'],
+		i = 0, maxWoop = 5;
+	    
+	    do
+	    {
+		ms /= woopDivisor[i];
+		
+		if(woopDivisor[i + 1] && woopFormat[i] != upTo)
+		    t[woopUnits[i]] = ms % woopDivisor[i + 1];
+		else
+		    t[woopUnits[i]] = ms;
+		
+		++i;
+	    } while(i < maxWoop && woopFormat[i - 1] != upTo);
+	}
     }
     
     //exports, for node

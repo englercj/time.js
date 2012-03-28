@@ -95,7 +95,12 @@
 	return str;
     }
     
-    //exports, for node/browser
-    if(module) module.exports = Time;
-    else window.Time = Time;
+    //exports, for node
+    try {
+	module.exports = Time;
+    } 
+    //if it fails to register for node, register for browser
+    catch(e) {
+	window.Time = Time;
+    }
 }(window);

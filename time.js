@@ -87,7 +87,7 @@
     
     //private methods
     function pad(num, len) {
-	var str = '' + number; //convert to string
+	var str = '' + num; //convert to string
 	while(str.length < len) {
 	    str = '0' + str;
 	}

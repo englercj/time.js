@@ -35,12 +35,6 @@
     //ctor
     function Time(ms) {
 	this._total_ms = 0;
-	this._ms = 0;
-	this._secs = 0;
-	this._mins = 0;
-	this._hrs = 0;
-	this._days = 0;
-	
 	if(ms) this._total_ms = ms;
 	
 	//parseMs(this);
@@ -118,6 +112,12 @@
     
     function parseMs(t, upTo) {
 	var ms = t._total_ms;
+	
+	this._ms = 0;
+	this._secs = 0;
+	this._mins = 0;
+	this._hrs = 0;
+	this._days = 0;
 	
 	if(ms) {
 	    //ms in ms, ms in sec, sec in min, min in hrs, hrs in days

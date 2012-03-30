@@ -132,7 +132,7 @@
 		
 		if(woopDivisor[i + 1] && woopFormat[i] != upTo)
 		    t[woopUnits[i]] = ms % woopDivisor[i + 1];
-		else
+		else if (ms >= 1)
 		    t[woopUnits[i]] = ms;
 		
 		++i;

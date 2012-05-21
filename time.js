@@ -47,9 +47,9 @@
 	    
 	parseMs(this, largest);
 	
-	for(var i in formats) {
+	for(var i = 0; i < formats.length; ++i) {
 	    var f = formats[i],
-		type = f.substring(0, 2),
+		type = f.substr(0, 2),
 		nums = f.match(/[\d]+/g),
 		padding = 0, precision = 0, value = 0;
 	    
@@ -58,7 +58,7 @@
 		if(nums[1]) precision = nums[1];
 	    }
 	    
-	    switch(f.substring(0,2)) {
+	    switch(f.substr(0,2)) {
 		case formatters.ms:
 		    value = this._ms;
 		    break;
@@ -141,11 +141,8 @@
     }
     
     //exports, for node
-    try {
+    if(module && module.exports)
 	module.exports = Time;
-    } 
-    //if it fails to register for node, register for browser
-    catch(e) {
+    else
 	window.Time = Time;
-    }
 }(window);

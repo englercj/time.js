@@ -1,8 +1,8 @@
 {
-    "name":	    "Time.js",
+    "name":	    "time.js",
     "description":  "Date-less time handling for JavaScript",
     "keywords":	    ["date", "time", "formatting", "parsing"],
-    "version":	    "0.0.1",
+    "version":	    "0.0.2",
     "author":	    "Chad Engler <chad@pantherdev.com>",
     "repository": {
 	"type": "git",

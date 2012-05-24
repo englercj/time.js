@@ -2,7 +2,7 @@
     "name":	    "time.js",
     "description":  "Date-less time handling for JavaScript",
     "keywords":	    ["date", "time", "formatting", "parsing"],
-    "version":	    "0.0.2",
+    "version":	    "0.0.3",
     "author":	    "Chad Engler <chad@pantherdev.com>",
     "repository": {
 	"type": "git",
@@ -13,15 +13,8 @@
     },
     "dependencies": {},
     "devDependencies": {},
-    "config": {},
-    "main": "./lib/time",
-    "directories": { 
-	"lib": "./lib"
-    },
+    "main": "./time",
     "engines": {
 	"node": ">=0.4.0"
-    },
-    "scripts": {
-	"test": "node ./lib/tests/index.js test"
     }
 }

@@ -21,7 +21,7 @@
 //%s{3, 1}  = '004.4'
 /////////////////////
     
-!function(window, undefined) {
+!function(undefined) {
     //private vars
     var get_formatters = /%[smhd](\{[\d]+(,[ ]*[\d]+)?\})?/g,
 	formatters = {
@@ -141,8 +141,8 @@
     }
     
     //exports, for node
-    if(module && module.exports)
-	module.exports = Time;
+    if(typeof(exports) !== 'undefined')
+        exports = Time;
     else
-	window.Time = Time;
-}(window);
+        window.Time = Time;
+}();

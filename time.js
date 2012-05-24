@@ -23,7 +23,7 @@
     
 !function(undefined) {
     //private vars
-    var get_formatters = /%[smhd](\{[\d]+(,[ ]*[\d]+)?\})?/g,
+    var get_formatters = /%[smhdM](\{[\d]+(,[ ]*[\d]+)?\})?/g,
 	formatters = {
 	    ms: '%M',
 	    secs: '%s',
@@ -142,7 +142,7 @@
     
     //exports, for node
     if(typeof(exports) !== 'undefined')
-        exports = Time;
+        exports.Time = Time;
     else
         window.Time = Time;
 }();

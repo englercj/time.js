@@ -76,7 +76,7 @@
 		    break;
 	    }
 	    
-	    fmat = fmat.replace(f, pad(Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision), padding));
+	    fmat = fmat.replace(f, pad(value/*Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision)*/, padding));
 	}
 	
 	return fmat;
@@ -133,7 +133,8 @@
 		if(woopDivisor[i + 1] && woopFormat[i] != upTo)
 		    t[woopUnits[i]] = Math.floor(ms % woopDivisor[i + 1]);
 		else if (ms >= 1)
-		    t[woopUnits[i]] = ms;
+		    t[woopUnits[i]] = Math.floor(ms);
+		    
 		
 		++i;
 	    } while(i < maxWoop && woopFormat[i - 1] != upTo);

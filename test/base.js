@@ -1,10 +1,4 @@
-module('Registration');
-test('Registers itself for use', 2, function() {
-    ok(Time, 'Time is in the global object');
-    ok(Time.format, 'Time.format is in the global object');
-});
-
-module('Formating');
+module('Base Formating');
 test('Formats 0ms Correctly', 5, function() {
     equal(Time.format(0, '%d:%h:%m:%s.%M'), '0:0:0:0.0');
     equal(Time.format(0, '%h:%m:%s.%M'), '0:0:0.0');

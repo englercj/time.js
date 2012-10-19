@@ -6,24 +6,22 @@
 //%h - hours
 //%d - days
 //can have a modifier like:
-//%s{5, 0}
-//in the format of:
-//{
-//    length to zero pad to reach (if number is >= length no modification is made), 
-//    decimal precision (rounded) where 0 is whole number (rounded)
-//}
-//so if we have 4.356 seconds
+//%s{5}
+//which is the minimum length of the string for that value
+//if the string value is less than that length, it will be zero padded.
+//
+//Note also that values are Math.floor()ed
+//so if we have 4956 miliseconds (4.956 seconds)
 //%s	    = '4'
 //%s{0}	    = '4'
-//%s{0, 0}  = '4'
 //%s{2}	    = '04'
-//%s{2, 2}  = '04.36'
-//%s{3, 1}  = '004.4'
+//%s{3}     = '004'
+//%s{2}.%M  = '04.956'
 /////////////////////
     
 !function(undefined) {
     //private vars
-    var get_formatters = /%[smhdM](\{[\d]+(,[ ]*[\d]+)?\})?/g,
+    var get_formatters = /%[smhdM](\{[\d]+\})?/g,
 	formatters = {
 	    ms: '%M',
 	    secs: '%s',
@@ -36,8 +34,6 @@
     function Time(ms) {
 	this._total_ms = 0;
 	if(ms) this._total_ms = ms;
-	
-	//parseMs(this);
     }
     
     //public instance methods
@@ -53,10 +49,7 @@
 		nums = f.match(/[\d]+/g),
 		padding = 0, precision = 0, value = 0;
 	    
-	    if(nums) {
-		padding = nums[0];
-		if(nums[1]) precision = nums[1];
-	    }
+	    if(nums) padding = nums[0];
 	    
 	    switch(f.substr(0,2)) {
 		case formatters.ms:
@@ -75,8 +68,8 @@
 		    value = this._days;
 		    break;
 	    }
-	    
-	    fmat = fmat.replace(f, pad(value/*Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision)*/, padding));
+
+	    fmat = fmat.replace(f, pad(value, padding));
 	}
 	
 	return fmat;
@@ -134,7 +127,6 @@
 		    t[woopUnits[i]] = Math.floor(ms % woopDivisor[i + 1]);
 		else if (ms >= 1)
 		    t[woopUnits[i]] = Math.floor(ms);
-		    
 		
 		++i;
 	    } while(i < maxWoop && woopFormat[i - 1] != upTo);
